@@ -1,3 +1,4 @@
+/* Create function that gets computer choice */
 function getComputerChoice() {
     /* Create a variable that contain computer choice */
     /* Assign that variable to the random value due to math.random() */
@@ -12,4 +13,50 @@ function getComputerChoice() {
     return choice;
 }
 
-console.log(getComputerChoice())
+/* Players choices(test)*/
+const playerChoice = "Rock";
+const computerChoice = String(getComputerChoice());
+
+
+/* Compare player choice to the computer choice function*/
+/* Return "who is winner?" result */
+function playRound(playerChoice, computerChoice) {
+    let result,
+        playerVictory = "You win! ",
+        playerLose = "You lose! ";
+    
+    /* If draw */
+    if (playerChoice.toLowerCase() === computerChoice.toLowerCase()) {
+        result = "Draw"
+    
+    } else if (playerChoice.toLowerCase() === "Rock".toLowerCase()) {
+        /* If player choose Rock */
+        if (computerChoice === "Scissors") {
+            result = `${playerVictory}Rock beats Scissors`;
+        } else if (computerChoice === "Paper") {
+            result = `${playerLose}Paper beats Rock`;
+        }
+    
+    } else if (playerChoice.toLowerCase() === "Scissors".toLowerCase()) {
+        /* If player choose Scissors */
+        if (computerChoice === "Rock") {
+            result = `${playerLose}Rock beats Scissors`;
+        } else if (computerChoice === "Paper") {
+            result = `${playerVictory}Scissors beats Paper`;
+        }
+    
+    } else if (playerChoice.toLowerCase() === "Paper".toLowerCase()) {
+        /* If player choose Paper */
+        if (computerChoice === "Rock") {
+            result = `${playerVictory}Paper beats Rock`;
+        } else if (computerChoice === "Scissors") {
+            result = `${playerLose}Scissors beats Paper`;
+        }
+    }
+return result;
+}
+
+/* Show player choice and computer choice in the consol(just for test) */
+console.log(`Player: ${playerChoice}\nComputer: ${computerChoice}`)
+/* Show result of a one round function */
+console.log(playRound(playerChoice, computerChoice))
