@@ -14,8 +14,7 @@ function getComputerChoice() {
 }
 
 /* Create function that gets user choice */
-function getPlayerChoice() {
-    let pChoice = prompt("Choose rock, paper or scissors", ""); 
+function getPlayerChoice(pChoice) {
     /* playerChoiceCheck */
     if (pChoice === null || pChoice === "" || pChoice === undefined) {
         alert("Wrong value! Try again")
@@ -25,11 +24,6 @@ function getPlayerChoice() {
         alert("Wrong value! Try again")
     }
 }
-
-
-/* Players choices(test)*/
-const playerChoice = getPlayerChoice();
-const computerChoice = String(getComputerChoice());
 
 
 /* Compare player choice to the computer choice function*/
@@ -67,10 +61,40 @@ function playRound(playerChoice, computerChoice) {
             result = `${playerLose}Scissors beats Paper`;
         }
     }
+    /* Show player choice and computer choice in the consol(just for test) */
+    console.log(`Player: ${playerChoice}\nComputer: ${computerChoice}`)
     return result;
 }
 
-/* Show player choice and computer choice in the consol(just for test) */
-console.log(`Player: ${playerChoice}\nComputer: ${computerChoice}`)
-/* Show result of a one round function */
-console.log(playRound(playerChoice, computerChoice))
+/* Play 5 rounds */
+/* Return score and winner */
+function game() {
+    let winCount = 0, loseCount = 0;
+    let scoreLog;
+    for (let i = 0; i < 5; i++) {
+        /* Players choices*/
+        const computerChoice = String(getComputerChoice());
+        let playerChoice = getPlayerChoice(prompt("Choose rock, paper or scissors", ""));
+        /* Show result of a one round function */
+        scoreLog = playRound(playerChoice, computerChoice)
+        console.log(scoreLog)
+        /* Count score */
+        if (scoreLog.includes("win")) {
+            ++winCount;
+        }
+        if (scoreLog.includes("lose")) {
+            ++loseCount;
+        }
+
+    }
+
+    console.log(`\nPlayer won ${winCount} times`);
+    console.log(`Computer won ${loseCount} times`);
+    if (winCount > loseCount) {
+        console.log("You won!");
+    } else if ( winCount < loseCount) {
+        console.log("You lose");
+    } else console.log("Draw");
+}
+
+game()
