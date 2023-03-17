@@ -13,8 +13,22 @@ function getComputerChoice() {
     return choice;
 }
 
+/* Create function that gets user choice */
+function getPlayerChoice() {
+    let pChoice = prompt("Choose rock, paper or scissors", ""); 
+    /* playerChoiceCheck */
+    if (pChoice === null || pChoice === "" || pChoice === undefined) {
+        alert("Wrong value! Try again")
+    } else if (pChoice.toLowerCase() === "rock" || pChoice.toLowerCase() === "paper" || pChoice.toLowerCase() === "scissors") {
+        return pChoice;
+    } else {
+        alert("Wrong value! Try again")
+    }
+}
+
+
 /* Players choices(test)*/
-const playerChoice = "Rock";
+const playerChoice = getPlayerChoice();
 const computerChoice = String(getComputerChoice());
 
 
@@ -24,11 +38,11 @@ function playRound(playerChoice, computerChoice) {
     let result,
         playerVictory = "You win! ",
         playerLose = "You lose! ";
-    
+
     /* If draw */
     if (playerChoice.toLowerCase() === computerChoice.toLowerCase()) {
         result = "Draw"
-    
+
     } else if (playerChoice.toLowerCase() === "Rock".toLowerCase()) {
         /* If player choose Rock */
         if (computerChoice === "Scissors") {
@@ -36,7 +50,7 @@ function playRound(playerChoice, computerChoice) {
         } else if (computerChoice === "Paper") {
             result = `${playerLose}Paper beats Rock`;
         }
-    
+
     } else if (playerChoice.toLowerCase() === "Scissors".toLowerCase()) {
         /* If player choose Scissors */
         if (computerChoice === "Rock") {
@@ -44,7 +58,7 @@ function playRound(playerChoice, computerChoice) {
         } else if (computerChoice === "Paper") {
             result = `${playerVictory}Scissors beats Paper`;
         }
-    
+
     } else if (playerChoice.toLowerCase() === "Paper".toLowerCase()) {
         /* If player choose Paper */
         if (computerChoice === "Rock") {
@@ -53,7 +67,7 @@ function playRound(playerChoice, computerChoice) {
             result = `${playerLose}Scissors beats Paper`;
         }
     }
-return result;
+    return result;
 }
 
 /* Show player choice and computer choice in the consol(just for test) */
