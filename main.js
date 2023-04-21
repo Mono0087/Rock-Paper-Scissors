@@ -71,30 +71,7 @@ function playRound(playerChoice, computerChoice) {
 function game() {
     let winCount = 0, loseCount = 0;
     let scoreLog;
-    for (let i = 0; i < 5; i++) {
-        /* Players choices*/
-        const computerChoice = String(getComputerChoice());
-        let playerChoice = getPlayerChoice(prompt("Choose rock, paper or scissors", ""));
-        /* Show result of a one round function */
-        scoreLog = playRound(playerChoice, computerChoice)
-        console.log(scoreLog)
-        /* Count score */
-        if (scoreLog.includes("win")) {
-            ++winCount;
-        }
-        if (scoreLog.includes("lose")) {
-            ++loseCount;
-        }
 
-    }
-
-    console.log(`\nPlayer won ${winCount} times`);
-    console.log(`Computer won ${loseCount} times`);
-    if (winCount > loseCount) {
-        console.log("You won!");
-    } else if ( winCount < loseCount) {
-        console.log("You lose");
-    } else console.log("Draw");
 }
 
 game()
