@@ -1,3 +1,13 @@
+const rockBtn = document.querySelector('#choice_btn-Rock');
+const paperBtn = document.querySelector('#choice_btn-Paper');
+const scissorsBtn = document.querySelector('#choice_btn-Scissors');
+
+const logField = document.querySelector('#game_logs-field');
+
+const playerScorePara = document.querySelector('#player_score');
+const compScorePara = document.querySelector('#computer_score');
+const resultPara = document.querySelector('#final_result');
+
 /* Create function that gets computer choice */
 function getComputerChoice() {
     /* Create a variable that contain computer choice */
@@ -13,65 +23,92 @@ function getComputerChoice() {
     return choice;
 }
 
-/* Create function that gets user choice */
-function getPlayerChoice(pChoice) {
-    /* playerChoiceCheck */
-    if (pChoice === null || pChoice === "" || pChoice === undefined) {
-        alert("Wrong value! Try again")
-    } else if (pChoice.toLowerCase() === "rock" || pChoice.toLowerCase() === "paper" || pChoice.toLowerCase() === "scissors") {
-        return pChoice;
-    } else {
-        alert("Wrong value! Try again")
+/* Create function that gets user choice and compare it with computer choice*/
+let playerScore = 0;
+let computerScore = 0;
+let result;
+document.querySelector('#game_buttons').addEventListener('click', getPlayerChoice);
+function getPlayerChoice(e) {
+    let rock = "Rock", paper = "Paper", scissors = "Scissors";
+    let roundResult = '';
+    let choice = e.target.innerText
+
+    switch (choice) {
+        case rock:
+            compChoice = getComputerChoice();
+            if (compChoice === "Paper") {
+                roundResult = "You lose! Paper beat rock";
+                computerScore += 1;
+                computerPoints()
+            } else if (compChoice === "Scissors") {
+                roundResult = "You win! Rock beat scissors";
+                playerScore += 1;
+                playerPoints()
+            } else {
+                roundResult = "Draw"
+            };
+            logField.innerText += `Player: Rock\n Computer: ${compChoice}\n ${roundResult}\n\n`
+            break;
+
+        case paper:
+            compChoice = getComputerChoice();
+            if (compChoice === "Rock") {
+                roundResult = "You win! Paper beat rock";
+                playerScore += 1;
+                playerPoints()
+            } else if (compChoice === "Scissors") {
+                roundResult = "You lose! Scissors beat paper";
+                computerScore += 1;
+                computerPoints()
+            } else {
+                roundResult = "Draw"
+            };
+            logField.innerText += `Player: Paper\n Computer: ${compChoice}\n ${roundResult}\n\n`
+            break;
+
+        case scissors:
+            compChoice = getComputerChoice();
+            if (compChoice === "Paper") {
+                roundResult = "You win! Scissors beat paper";
+                playerScore += 1;
+                playerPoints()
+            } else if (compChoice === "Rock") {
+                roundResult = "You lose! Rock beats scissors";
+                computerScore += 1;
+                computerPoints()
+            } else {
+                roundResult = "Draw"
+            };
+            logField.innerText += `Player: Scissors\n Computer: ${compChoice}\n ${roundResult}\n\n`
+            break;
     }
-}
 
-
-/* Compare player choice to the computer choice function*/
-/* Return "who is winner?" result */
-function playRound(playerChoice, computerChoice) {
-    let result,
-        playerVictory = "You win! ",
-        playerLose = "You lose! ";
-
-    /* If draw */
-    if (playerChoice.toLowerCase() === computerChoice.toLowerCase()) {
-        result = "Draw"
-
-    } else if (playerChoice.toLowerCase() === "Rock".toLowerCase()) {
-        /* If player choose Rock */
-        if (computerChoice === "Scissors") {
-            result = `${playerVictory}Rock beats Scissors`;
-        } else if (computerChoice === "Paper") {
-            result = `${playerLose}Paper beats Rock`;
-        }
-
-    } else if (playerChoice.toLowerCase() === "Scissors".toLowerCase()) {
-        /* If player choose Scissors */
-        if (computerChoice === "Rock") {
-            result = `${playerLose}Rock beats Scissors`;
-        } else if (computerChoice === "Paper") {
-            result = `${playerVictory}Scissors beats Paper`;
-        }
-
-    } else if (playerChoice.toLowerCase() === "Paper".toLowerCase()) {
-        /* If player choose Paper */
-        if (computerChoice === "Rock") {
-            result = `${playerVictory}Paper beats Rock`;
-        } else if (computerChoice === "Scissors") {
-            result = `${playerLose}Scissors beats Paper`;
-        }
+    // Put player score
+    function playerPoints() {
+        playerScorePara.appendChild(document.createTextNode(''));
+        let lastChildP = playerScorePara.childNodes[1];
+        let newTextNodeP = document.createTextNode(`${playerScore}`);
+        playerScorePara.replaceChild(newTextNodeP, lastChildP)
     }
-    /* Show player choice and computer choice in the consol(just for test) */
-    console.log(`Player: ${playerChoice}\nComputer: ${computerChoice}`)
-    return result;
+
+    // Put computer score
+    function computerPoints() {
+        compScorePara.appendChild(document.createTextNode(''));
+        let lastChildC = compScorePara.childNodes[1];
+        let newTextNodeC = document.createTextNode(`${computerScore}`);
+        compScorePara.replaceChild(newTextNodeC, lastChildC)
+    }
+
+    // Put final result
+    // If round count > 5 stop the game
+    if (playerScore >= 5 || computerScore >= 5) {
+        if (playerScore > computerScore) {
+            resultPara.textContent = "You won!";
+        } else {
+            resultPara.textContent = "Computer won!";
+        }
+        document.querySelector('#game_buttons').removeEventListener('click', getPlayerChoice);
+    }
+
+    logField.scrollTo(0, logField.scrollHeight - 1)
 }
-
-/* Play 5 rounds */
-/* Return score and winner */
-function game() {
-    let winCount = 0, loseCount = 0;
-    let scoreLog;
-
-}
-
-game()
