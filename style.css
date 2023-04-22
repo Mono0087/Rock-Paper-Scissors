@@ -5,9 +5,9 @@ body {
 
 .container {
     height: 100%;
-    flex-direction: column;
     padding: 15px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -80,14 +80,13 @@ body {
 
 /* Adaptive */
 
-@media(max-width:500px) {
+@media(max-width:600px) {
+
     .container {
         display: block;
+        height: fit-content;
     }
 
-    #game_logs-field {
-        height: 130px;
-    }
 
     .box {
         width: 100%;
