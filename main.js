@@ -29,61 +29,55 @@ let computerScore = 0;
 let result;
 document.querySelector('#game_buttons').addEventListener('click', getPlayerChoice);
 function getPlayerChoice(e) {
-    let rock = "Rock", paper = "Paper", scissors = "Scissors";
     let roundResult = '';
-    let choice = e.target.innerText
+    let playerChoice = e.target.innerText;
+    let compChoice = getComputerChoice();
 
-    switch (choice) {
-        case rock:
-            compChoice = getComputerChoice();
-            if (compChoice === "Paper") {
-                roundResult = "You lose! Paper beat rock";
-                computerScore += 1;
-                computerPoints()
-            } else if (compChoice === "Scissors") {
-                roundResult = "You win! Rock beat scissors";
-                playerScore += 1;
-                playerPoints()
-            } else {
-                roundResult = "Draw"
-            };
-            logField.innerText += `Player: Rock\n Computer: ${compChoice}\n ${roundResult}\n\n`
-            break;
+    // Compare input and computer choice
+    if (playerChoice == "Rock") {
+        if (compChoice == "Paper") {
+            roundResult = 0;
+        } else if (compChoice == "Scissors") {
+            roundResult = 1;
+        } else {
+            roundResult = null;
+        };
+    } else if (playerChoice == "Paper") {
+        if (compChoice == "Rock") {
+            roundResult = 1;
+        } else if (compChoice == "Scissors") {
+            roundResult = 0;
+        } else {
+            roundResult = null;
+        };
+    } else {
+        if (compChoice == "Rock") {
+            roundResult = 0;
+        } else if (compChoice == "Paper") {
+            roundResult = 1;
+        } else {
+            roundResult = null;
+        };
+    };
 
-        case paper:
-            compChoice = getComputerChoice();
-            if (compChoice === "Rock") {
-                roundResult = "You win! Paper beat rock";
-                playerScore += 1;
-                playerPoints()
-            } else if (compChoice === "Scissors") {
-                roundResult = "You lose! Scissors beat paper";
-                computerScore += 1;
-                computerPoints()
-            } else {
-                roundResult = "Draw"
-            };
-            logField.innerText += `Player: Paper\n Computer: ${compChoice}\n ${roundResult}\n\n`
-            break;
+    // Interpret result into text and increment points
+    let roundResultText;
+    if (roundResult) {
+        roundResultText = `You won! ${playerChoice} beat ${compChoice}`;
+        playerScore += 1;
+    } else if (roundResult === 0) {
+        roundResultText = `You lose! ${compChoice} beat ${playerChoice}`;
+        computerScore += 1;
+    } else {
+        roundResultText = 'Draw';
+    };
+    playerPoints();
+    computerPoints();
 
-        case scissors:
-            compChoice = getComputerChoice();
-            if (compChoice === "Paper") {
-                roundResult = "You win! Scissors beat paper";
-                playerScore += 1;
-                playerPoints()
-            } else if (compChoice === "Rock") {
-                roundResult = "You lose! Rock beats scissors";
-                computerScore += 1;
-                computerPoints()
-            } else {
-                roundResult = "Draw"
-            };
-            logField.innerText += `Player: Scissors\n Computer: ${compChoice}\n ${roundResult}\n\n`
-            break;
-    }
+    // Put logs
+    logField.innerText += `Player: ${playerChoice}\nComputer: ${compChoice}\n${roundResultText}\n\n`;
 
-    // Put player score
+    // Put player score in paragraph
     function playerPoints() {
         playerScorePara.appendChild(document.createTextNode(''));
         let lastChildP = playerScorePara.childNodes[1];
@@ -91,7 +85,7 @@ function getPlayerChoice(e) {
         playerScorePara.replaceChild(newTextNodeP, lastChildP)
     }
 
-    // Put computer score
+    // Put computer score in paragraph
     function computerPoints() {
         compScorePara.appendChild(document.createTextNode(''));
         let lastChildC = compScorePara.childNodes[1];
@@ -110,5 +104,5 @@ function getPlayerChoice(e) {
         document.querySelector('#game_buttons').removeEventListener('click', getPlayerChoice);
     }
 
-    logField.scrollTo(0, logField.scrollHeight - 1)
+    logField.scrollTo(0, logField.scrollHeight)
 }
