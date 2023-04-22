@@ -38,6 +38,11 @@ body {
     background-color: #fff;
 }
 
+.btn:disabled{
+    background-color: beige;
+
+}
+
 /* CSS */
 
 .box {
@@ -73,10 +78,29 @@ body {
     font-size: 18px;
 }
 
+.game_result{
+    position: relative;
+}
+
 .game_result p {
     margin-top: 5px;
     text-align: left;
 }
+
+#restart {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    margin: 0;
+    top: 0;
+    right: 0;
+    transform: translate(-50% -50%);
+    background-image: url(./refresh.svg);
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+}
+
 
 /* Adaptive */
 
@@ -99,6 +123,7 @@ body {
 
     .game_result {
         font-size: 20px;
+        text-align: left;
     }
 
     .game_result p {

@@ -1,12 +1,12 @@
+const choiceButtons = document.querySelector('#game_buttons');
 const rockBtn = document.querySelector('#choice_btn-Rock');
 const paperBtn = document.querySelector('#choice_btn-Paper');
 const scissorsBtn = document.querySelector('#choice_btn-Scissors');
-
 const logField = document.querySelector('#game_logs-field');
-
 const playerScorePara = document.querySelector('#player_score');
 const compScorePara = document.querySelector('#computer_score');
 const resultPara = document.querySelector('#final_result');
+const restartBtn = document.querySelector('#restart');
 
 /* Create function that gets computer choice */
 function getComputerChoice() {
@@ -27,7 +27,7 @@ function getComputerChoice() {
 let playerScore = 0;
 let computerScore = 0;
 let result;
-document.querySelector('#game_buttons').addEventListener('click', getPlayerChoice);
+choiceButtons.addEventListener('click', getPlayerChoice);
 function getPlayerChoice(e) {
     let roundResult = '';
     let playerChoice = e.target.innerText;
@@ -76,6 +76,7 @@ function getPlayerChoice(e) {
 
     // Put logs
     logField.innerText += `Player: ${playerChoice}\nComputer: ${compChoice}\n${roundResultText}\n\n`;
+    logField.scrollTo(0, logField.scrollHeight);
 
     // Put player score in paragraph
     function playerPoints() {
@@ -102,7 +103,24 @@ function getPlayerChoice(e) {
             resultPara.textContent = "Computer won!";
         }
         document.querySelector('#game_buttons').removeEventListener('click', getPlayerChoice);
+        Array.from(choiceButtons.children).forEach((elem) => {
+            elem.setAttribute("disabled", "disabled");
+        })
     }
-
-    logField.scrollTo(0, logField.scrollHeight)
 }
+
+// Restart button
+restartBtn.addEventListener('click', (e) => {
+    if (rockBtn.getAttribute('disabled')) {
+        Array.from(choiceButtons.children).forEach((elem) => {
+            elem.removeAttribute('disabled')
+        });
+        choiceButtons.addEventListener('click', getPlayerChoice);
+    }
+    logField.innerText = '';
+    playerScore = 0;
+    computerScore = 0;
+    playerScorePara.textContent = "Player won: ";
+    compScorePara.textContent = "Computer won:";
+    resultPara.textContent = "*Final result*"
+})
