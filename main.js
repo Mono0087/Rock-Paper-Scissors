@@ -78,7 +78,7 @@ function getPlayerChoice(e) {
     computerPoints();
 
     // Put logs
-    logField.innerText += `Round ${roundCount}\nPlayer: ${playerChoice}\nComputer: ${compChoice}\n${roundResultText}\n\n`;
+    logField.innerText += `Player: ${playerChoice}\nComputer: ${compChoice}\n${roundResultText}\n\n`;
     logField.scrollTo(0, logField.scrollHeight);
 
     // Put player score in paragraph
