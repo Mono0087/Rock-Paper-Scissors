@@ -32,83 +32,81 @@ let roundCount = 0;
 choiceButtons.addEventListener('click', getPlayerChoice);
 function getPlayerChoice(e) {
     let roundResult = '';
-    let playerChoice = e.target.innerText;
     let compChoice = getComputerChoice();
-    roundPara.textContent =`${++roundCount}`;
-
-    // Compare input and computer choice
-    if (playerChoice == "Rock") {
-        if (compChoice == "Paper") {
-            roundResult = 0;
-        } else if (compChoice == "Scissors") {
-            roundResult = 1;
-        } else {
+    let playerChoice = e.target.innerText;
+    
+    if (e.target.nodeName === "BUTTON") {
+        roundPara.textContent = `${++roundCount}`;
+        // Compare input and computer choice
+        if (playerChoice === compChoice) {
             roundResult = null;
+        } else if (playerChoice == "Rock") {
+            if (compChoice == "Paper") {
+                roundResult = 0;
+            } else if (compChoice == "Scissors") {
+                roundResult = 1;
+            }
+        } else if (playerChoice === "Paper") {
+            if (compChoice == "Rock") {
+                roundResult = 1;
+            } else if (compChoice == "Scissors") {
+                roundResult = 0;
+            }
+        } else if (playerChoice === "Scissors") {
+            if (compChoice == "Rock") {
+                roundResult = 0;
+            } else if (compChoice == "Paper") {
+                roundResult = 1;
+            }
         };
-    } else if (playerChoice == "Paper") {
-        if (compChoice == "Rock") {
-            roundResult = 1;
-        } else if (compChoice == "Scissors") {
-            roundResult = 0;
+
+        // Interpret result into text and increment points
+        let roundResultText;
+        if (roundResult) {
+            roundResultText = `You won! ${playerChoice} beat ${compChoice}`;
+            playerScore += 1;
+        } else if (roundResult === 0) {
+            roundResultText = `You lose! ${compChoice} beat ${playerChoice}`;
+            computerScore += 1;
         } else {
-            roundResult = null;
+            roundResultText = 'Draw';
         };
-    } else {
-        if (compChoice == "Rock") {
-            roundResult = 0;
-        } else if (compChoice == "Paper") {
-            roundResult = 1;
-        } else {
-            roundResult = null;
-        };
-    };
+        playerPoints();
+        computerPoints();
 
-    // Interpret result into text and increment points
-    let roundResultText;
-    if (roundResult) {
-        roundResultText = `You won! ${playerChoice} beat ${compChoice}`;
-        playerScore += 1;
-    } else if (roundResult === 0) {
-        roundResultText = `You lose! ${compChoice} beat ${playerChoice}`;
-        computerScore += 1;
-    } else {
-        roundResultText = 'Draw';
-    };
-    playerPoints();
-    computerPoints();
+        // Put logs
+        logField.innerText += `Player: ${playerChoice}\nComputer: ${compChoice}\n${roundResultText}\n\n`;
+        logField.scrollTo(0, logField.scrollHeight);
 
-    // Put logs
-    logField.innerText += `Player: ${playerChoice}\nComputer: ${compChoice}\n${roundResultText}\n\n`;
-    logField.scrollTo(0, logField.scrollHeight);
-
-    // Put player score in paragraph
-    function playerPoints() {
-        playerScorePara.appendChild(document.createTextNode(''));
-        let lastChildP = playerScorePara.childNodes[1];
-        let newTextNodeP = document.createTextNode(`${playerScore}`);
-        playerScorePara.replaceChild(newTextNodeP, lastChildP)
-    }
-
-    // Put computer score in paragraph
-    function computerPoints() {
-        compScorePara.appendChild(document.createTextNode(''));
-        let lastChildC = compScorePara.childNodes[1];
-        let newTextNodeC = document.createTextNode(`${computerScore}`);
-        compScorePara.replaceChild(newTextNodeC, lastChildC)
-    }
-
-    // Put final result
-    // If round count > 5 stop the game
-    if (playerScore >= 5 || computerScore >= 5) {
-        if (playerScore > computerScore) {
-            resultPara.textContent = "You won!";
-        } else {
-            resultPara.textContent = "Computer won!";
+        // Put player score in paragraph
+        function playerPoints() {
+            playerScorePara.appendChild(document.createTextNode(''));
+            let lastChildP = playerScorePara.childNodes[1];
+            let newTextNodeP = document.createTextNode(`${playerScore}`);
+            playerScorePara.replaceChild(newTextNodeP, lastChildP)
         }
-        choiceButtons.removeEventListener('click', getPlayerChoice);
-        Array.from(choiceButtons.children).forEach((elem) => {
-            elem.setAttribute("disabled", "disabled");
-        })
+
+        // Put computer score in paragraph
+        function computerPoints() {
+            compScorePara.appendChild(document.createTextNode(''));
+            let lastChildC = compScorePara.childNodes[1];
+            let newTextNodeC = document.createTextNode(`${computerScore}`);
+            compScorePara.replaceChild(newTextNodeC, lastChildC)
+        }
+
+        // Put final result
+        // If round count > 5 stop the game
+        if (playerScore >= 5 || computerScore >= 5) {
+            if (playerScore > computerScore) {
+                resultPara.textContent = "You won!";
+            } else {
+                resultPara.textContent = "Computer won!";
+            }
+            choiceButtons.removeEventListener('click', getPlayerChoice);
+            Array.from(choiceButtons.children).forEach((elem) => {
+                elem.setAttribute("disabled", "disabled");
+            })
+        }
     }
 }
 
